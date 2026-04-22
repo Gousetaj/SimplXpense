@@ -1,8 +1,8 @@
-
+import ExpenseCategoryList from "./settings/ExpenseCategory/ExpenseCategoryList";
 
 function StarterPage(){
     return <>
-    <h1>Home</h1>
+    <ExpenseCategoryList></ExpenseCategoryList>
     </>
 }
 

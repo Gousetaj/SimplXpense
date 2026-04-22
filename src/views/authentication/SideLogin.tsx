@@ -1,11 +1,12 @@
-
+import { useAuthStore } from "@/stores/auth"
 
 function SideLogin(){
-    const login=()=>{
-        localStorage.setItem('user','demo_user')
+    const login = useAuthStore((s:any)=>s.login)
+    const loginn=()=>{
+        login(JSON.stringify({"access_token":"asfd"}))
     }
     return <>
-    <button onClick={login}>L</button>
+    <button onClick={loginn}>L</button>
     
     </>
 }
