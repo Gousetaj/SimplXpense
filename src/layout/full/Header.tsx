@@ -11,7 +11,7 @@ function Header() {
     <header className="header">
       <div className="header-left">
         <IconMenu2 size={24} />
-        <span>Home</span>
+        {/* <span>Home</span> */}
       </div>
 
       <div className="header-right">

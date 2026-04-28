@@ -69,7 +69,21 @@
 
 .page-content {
   flex: 1;
-  padding: 20px;
+  padding: 0px;
   height: calc(100%-120px);
   overflow-y: auto;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  text-decoration: none;   /* ❌ removes underline */
+  color: inherit;          /* keeps your text color */
+}
+
+.menu-item:focus,
+.menu-item:active {
+  outline: none;           /* ❌ removes blue focus border */
 }
