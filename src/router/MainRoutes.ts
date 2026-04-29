@@ -18,7 +18,7 @@ export const mainRoutes:any=
                 },
                 {
                     name:'Expense Categories',
-                    path:'/ExpenseCategories',
+                    path:'/expense-categories',
                     component:lazy(()=>import('@/views/settings/ExpenseCategory/ExpenseCategoryList')),
                 },
         ]
