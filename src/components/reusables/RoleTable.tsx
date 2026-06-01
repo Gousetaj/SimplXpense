@@ -1,60 +1,135 @@
-function RoleTable({ fields, sampleData, handleAction,noDataContent={} }: any) {
-    return (
-        <div>
+import { useMemo, useState } from "react";
+import {
+  IconEye,
+  IconEdit,
+  IconTrash,
+  IconPlus,
+  IconSearch,
+} from "@tabler/icons-react";
 
-            {/* 🔥 Header Actions */}
-            <div style={{ marginBottom: 10, display: "flex", justifyContent: "flex-end" }}>
-                <button onClick={() => handleAction('add', {})}>
-                    {noDataContent.buttonText}
-                </button>
-            </div>
+import "./RoleTable.css";
 
-            <table
-                border={1}
-                cellPadding={10}
-                style={{ width: '100%', borderCollapse: 'collapse' }}
-            >
-                <thead>
-                    <tr>
-                        {fields.map((field: any) => (
-                            <th key={field.dataField}>
-                                {field.caption}
-                            </th>
-                        ))}
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+function RoleTable({
+  fields,
+  sampleData,
+  handleAction,
+  noDataContent = {},
+}: any) {
 
-                <tbody>
-                    {sampleData && sampleData.map((item: any, index: any) => (
-                        <tr key={item[fields?.[0].dataField] || index}>
+  const [search, setSearch] = useState("");
 
-                            {fields.map((field: any) => (
-                                <td key={field.dataField}>
-                                    {item[field.dataField]}
-                                </td>
-                            ))}
+  const filteredData = useMemo(() => {
+    if (!search.trim()) return sampleData;
 
-                            <td>
-                                <button onClick={() => handleAction('view', item)}>
-                                    View
-                                </button>
+    const query = search.toLowerCase();
 
-                                <button onClick={() => handleAction('update', item)}>
-                                    Edit
-                                </button>
+    return sampleData.filter((row: any) =>
+      fields.some((field: any) =>
+        String(row[field.dataField] ?? "")
+          .toLowerCase()
+          .includes(query)
+      )
+    );
+  }, [sampleData, fields, search]);
 
-                                <button onClick={() => handleAction('delete', item)}>
-                                    Delete
-                                </button>
-                            </td>
+  return (
+    <div className="table-card">
 
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+      {/* Search + Actions */}
+      <div className="table-header">
+
+        <div className="search-box">
+          <IconSearch size={18} />
+          <input
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
-    )
+
+        <button
+          className="btn-primary"
+          onClick={() => handleAction("add", {})}
+        >
+          <IconPlus size={18} />
+          {noDataContent.buttonText}
+        </button>
+
+      </div>
+
+      <div className="table-wrapper">
+        <table className="v-table">
+          <thead>
+            <tr>
+              <th width="50">
+                <input type="checkbox" />
+              </th>
+
+              {fields.map((field: any) => (
+                <th key={field.dataField}>
+                  {field.caption}
+                </th>
+              ))}
+
+              <th width="150">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filteredData?.map((item: any, index: number) => (
+              <tr
+                key={item[fields?.[0]?.dataField] || index}
+              >
+                <td>
+                  <input type="checkbox" />
+                </td>
+
+                {fields.map((field: any) => (
+                  <td key={field.dataField}>
+                    {item[field.dataField]}
+                  </td>
+                ))}
+
+                <td>
+                  <div className="action-buttons">
+
+                    <button
+                      className="icon-btn view"
+                      onClick={() => handleAction("view", item)}
+                    >
+                      <IconEye size={18} />
+                    </button>
+
+                    <button
+                      className="icon-btn edit"
+                      onClick={() => handleAction("update", item)}
+                    >
+                      <IconEdit size={18} />
+                    </button>
+
+                    <button
+                      className="icon-btn delete"
+                      onClick={() => handleAction("delete", item)}
+                    >
+                      <IconTrash size={18} />
+                    </button>
+
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {!filteredData?.length && (
+          <div className="empty-state">
+            No records found
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default RoleTable
+export default RoleTable;
