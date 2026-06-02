@@ -63,6 +63,7 @@
 
 .v-table thead {
   /* background: #fafafa; */
+  vertical-align: baseline;
   
 }
 .v-table tbody {
@@ -72,7 +73,7 @@
 .v-table th {
   text-align: left;
   padding: 14px 18px;
-
+height: 40px;
   font-size: 13px;
   font-weight: 600;
 
@@ -84,7 +85,7 @@
 .v-table td {
   padding: 14px 18px;
   border-bottom: 1px solid #f1f5f9;
-
+height: fit-content;
   font-size: 14px;
   color: #4b5563;
 }

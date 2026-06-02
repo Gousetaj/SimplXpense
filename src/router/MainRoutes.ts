@@ -21,5 +21,34 @@ export const mainRoutes:any=
                     path:'/expense-categories',
                     component:lazy(()=>import('@/views/settings/ExpenseCategory/ExpenseCategoryList')),
                 },
+                {
+                    name:'My Expense',
+                    path:'/MyExpense',
+                    component:lazy(()=>import('@/views/requisition/ExpenseRequisition/ExpenseRegistrationList')),
+                },
+
+    {
+      name: 'Add Expense',
+      path: '/expenses/add',
+      component: lazy(() =>
+        import('@/views/requisition/ExpenseRequisition/ExpenseRegistrationForm')
+      ),
+    },
+
+
+    {
+      name: 'Edit Expense',
+      path: '/expenses/edit/:id',
+      component: lazy(() =>
+        import('@/views/requisition/ExpenseRequisition/ExpenseRegistrationForm')
+      ),
+    },
+    {
+      name: 'View Expense',
+      path: '/expenses/view/:id',
+      component: lazy(() =>
+        import('@/views/requisition/ExpenseRequisition/ExpenseRegistrationForm')
+      ),
+    },
         ]
     }

@@ -7,12 +7,12 @@ import {
 
 function Settings() {
   const settingsConfig = [
-    {
-      title: "Employee Management",
-      items: [
-        { label: "Employees", icon: IconUsers, to: "/employees" },
-      ],
-    },
+    // {
+    //   title: "Employee Management",
+    //   items: [
+    //     { label: "Employees", icon: IconUsers, to: "/employees" },
+    //   ],
+    // },
     {
       title: "Expense Management",
       items: [
