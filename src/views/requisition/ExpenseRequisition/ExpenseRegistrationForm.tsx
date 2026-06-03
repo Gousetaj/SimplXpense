@@ -1,4 +1,29 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { saveExpense } from "@/db/expenseDb.ts";
+
 function ExpenseRegistrationForm() {
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    ExpenseNo: `EXP${Date.now()}`,
+    ExpenseDate: "",
+    CategoryId: "",
+    CategoryName: "",
+    Description: "",
+    Amount: 0,
+    Currency: "INR",
+    PaymentMethod: "Cash",
+    Status: "Draft",
+    Remarks: "",
+  });
+
+  const handleSave = async () => {
+    await saveExpense(form);
+
+    navigate("/MyExpense");
+  };
+
   return (
     <div className="page-container">
       <h1>Expense Registration</h1>
@@ -6,51 +31,59 @@ function ExpenseRegistrationForm() {
       <div className="card">
         <div className="form-grid">
 
-          <input placeholder="Expense No" />
+          <input
+            value={form.ExpenseNo}
+            readOnly
+          />
 
-          <input type="date" />
+          <input
+            type="date"
+            value={form.ExpenseDate}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                ExpenseDate: e.target.value,
+              })
+            }
+          />
 
-          <select>
-            <option>Food</option>
-            <option>Travel</option>
-            <option>Hotel</option>
-          </select>
+          <input
+            placeholder="Description"
+            value={form.Description}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                Description: e.target.value,
+              })
+            }
+          />
 
           <input
             type="number"
-            placeholder="Amount"
+            value={form.Amount}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                Amount: Number(e.target.value),
+              })
+            }
           />
-
-          <select>
-            <option>Cash</option>
-            <option>Card</option>
-            <option>UPI</option>
-          </select>
-
-          <select>
-            <option>Draft</option>
-            <option>Submitted</option>
-          </select>
-
-          <textarea
-            placeholder="Description"
-          />
-
-          <textarea
-            placeholder="Remarks"
-          />
-
-          <input type="file" />
         </div>
 
         <div className="page-actions">
-          <button>Save</button>
-          <button>Submit</button>
-          <button>Cancel</button>
+          <button onClick={handleSave}>
+            Save
+          </button>
+
+          <button
+            onClick={() => navigate("/MyExpense")}
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-export default ExpenseRegistrationForm
+export default ExpenseRegistrationForm;

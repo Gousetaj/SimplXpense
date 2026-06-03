@@ -1,24 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RoleTable from "@/components/reusables/RoleTable";
+import {
+  getExpenses,
+  deleteExpense,
+} from "@/db/expenseDb.ts";
 
 function ExpenseRegistrationList() {
   const navigate = useNavigate();
 
-  const [expenses, setExpenses] = useState([
-    {
-      ExpenseNo: "EXP0001",
-      ExpenseDate: "2026-06-01",
-      CategoryId: "FOOD",
-      CategoryName: "Food",
-      Description: "Team Lunch",
-      Amount: 2500,
-      Currency: "INR",
-      PaymentMethod: "Cash",
-      Status: "Draft",
-      Remarks: "",
-    },
-  ]);
+  const [expenses, setExpenses] = useState<any[]>(
+    []
+  );
+
+  const loadExpenses = async () => {
+    const data = await getExpenses();
+    setExpenses(data);
+  };
+
+  useEffect(() => {
+    loadExpenses();
+  }, []);
 
   const fields = [
     { caption: "Expense No", dataField: "ExpenseNo" },
@@ -29,7 +31,10 @@ function ExpenseRegistrationList() {
     { caption: "Status", dataField: "Status" },
   ];
 
-  const handleAction = (action: string, item: any) => {
+  const handleAction = async (
+    action: string,
+    item: any
+  ) => {
     switch (action) {
       case "add":
         navigate("/expenses/add");
@@ -44,12 +49,8 @@ function ExpenseRegistrationList() {
         break;
 
       case "delete":
-        setExpenses((prev) =>
-          prev.filter(
-            (expense) =>
-              expense.ExpenseNo !== item.ExpenseNo
-          )
-        );
+        await deleteExpense(item.ExpenseNo);
+        loadExpenses();
         break;
     }
   };
